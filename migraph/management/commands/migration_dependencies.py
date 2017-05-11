@@ -5,22 +5,22 @@ from django.db.migrations.loader import MigrationLoader
 class Command(AppCommand):
 
     def print_label(self, text):
-        print(self.style.MIGRATE_LABEL(text))
+        self.stdout.write(self.style.MIGRATE_LABEL(text) + '\n')
 
     def print_warn(self, text):
-        print(self.style.WARNING(text))
+        self.stdout.write(self.style.WARNING(text) + '\n')
 
     def print_title(self, text):
-        print(self.style.MIGRATE_HEADING(text))
+        self.stdout.write(self.style.MIGRATE_HEADING(text) + '\n')
 
     def print_notice(self, text):
-        print(self.style.NOTICE(text))
+        self.stdout.write(self.style.NOTICE(text) + '\n')
 
     def print_error(self, text):
-        print(self.style.ERROR(text))
+        self.stdout.write(self.style.ERROR(text) + '\n')
 
     def print_success(self, text):
-        print(self.style.SUCCESS(text))
+        self.stdout.write(self.style.SUCCESS(text) + '\n')
 
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)

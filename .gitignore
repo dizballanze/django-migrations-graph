@@ -42,3 +42,5 @@ htmlcov
 # Complexity
 output/*.html
 output/*/index.html
+*.swp
+venv

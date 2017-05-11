@@ -55,7 +55,7 @@ setup(
         'migraph',
     ],
     include_package_data=True,
-    install_requires=[],
+    install_requires=['Django>=1.7'],
     license="MIT",
     zip_safe=False,
     keywords='django-migrations-graph',
