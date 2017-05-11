@@ -28,8 +28,6 @@ class Command(AppCommand):
 
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)
-        # List of all migrations for specified apps with dependencies to both sides
-        # Show plan for specified migration backward or forward
         for app in apps:
             self.print_success("[{}]".format(app))
             self._print_app_migrations_graph(app)

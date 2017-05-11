@@ -12,20 +12,15 @@ class MigrationDependenciesCommandTestCase(TestCase):
 
     COMMAND_NAME = 'migration_dependencies'
 
-    AUTH_MIGRATIONS = [
+    FOO_MIGRATIONS = [
         '0001_initial',
-        '0002_alter_permission_name_max_length',
-        '0003_alter_user_email_max_length',
-        '0004_alter_user_username_opts',
-        '0005_alter_user_last_login_null',
-        '0006_require_contenttypes_0002',
-        '0007_alter_validators_add_error_messages',
-        '0008_alter_user_username_max_length',
+        '0002_auto_20170511_0514',
+        '0003_auto_20170511_0514',
     ]
 
-    ADMIN_MIGRATIONS = [
+    BAR_MIGRATIONS = [
         '0001_initial',
-        '0002_logentry_remove_auto_add',
+        '0002_auto_20170511_0515',
     ]
 
     def setUp(self):
@@ -38,39 +33,38 @@ class MigrationDependenciesCommandTestCase(TestCase):
 
     def test_single_app_output_has_app_name(self):
         """ Should print application name """
-        call_command(self.COMMAND_NAME, 'auth', stdout=self.out)
-        self.assertIn('[auth]', self.out.getvalue())
+        call_command(self.COMMAND_NAME, 'foo', stdout=self.out)
+        self.assertIn('[foo]', self.out.getvalue())
 
     def test_print_all_migrations(self):
         """ Should print all migrations names """
-        call_command(self.COMMAND_NAME, 'auth', stdout=self.out)
+        call_command(self.COMMAND_NAME, 'foo', stdout=self.out)
         output = self.out.getvalue()
-        for migration in self.AUTH_MIGRATIONS:
-            self.assertIn('auth/{}'.format(migration), output)
+        for migration in self.FOO_MIGRATIONS:
+            self.assertIn('foo/{}'.format(migration), output)
 
     def test_print_depending_migrations(self):
         """ Should print depending migrations from another apps """
-        call_command(self.COMMAND_NAME, 'auth', stdout=self.out)
+        call_command(self.COMMAND_NAME, 'foo', stdout=self.out)
         output = self.out.getvalue()
-        self.assertIn('admin/0001_initial', output)
+        self.assertIn('bar/0001_initial', output)
 
     def test_print_depends_on_migrations(self):
-        call_command(self.COMMAND_NAME, 'auth', stdout=self.out)
+        call_command(self.COMMAND_NAME, 'foo', stdout=self.out)
         output = self.out.getvalue()
-        self.assertIn('contenttypes/__first__', output)
-        self.assertIn('contenttypes/0002_remove_content_type_name', output)
+        self.assertIn('bar/0002_auto_20170511_0515', output)
 
     def test_multiple_apps_names(self):
         """ Should display multiple apps names """
-        call_command(self.COMMAND_NAME, 'auth', 'admin', stdout=self.out)
-        self.assertIn('[auth]', self.out.getvalue())
-        self.assertIn('[admin]', self.out.getvalue())
+        call_command(self.COMMAND_NAME, 'foo', 'bar', stdout=self.out)
+        self.assertIn('[foo]', self.out.getvalue())
+        self.assertIn('[bar]', self.out.getvalue())
 
     def test_display_all_provided_apps_migrations(self):
         """ Should display all migrations of all provided apps """
-        call_command(self.COMMAND_NAME, 'auth', 'admin', stdout=self.out)
+        call_command(self.COMMAND_NAME, 'foo', 'bar', stdout=self.out)
         output = self.out.getvalue()
-        for migration in self.AUTH_MIGRATIONS:
-            self.assertIn('auth/{}'.format(migration), output)
-        for migration in self.ADMIN_MIGRATIONS:
-            self.assertIn('admin/{}'.format(migration), output)
+        for migration in self.FOO_MIGRATIONS:
+            self.assertIn('foo/{}'.format(migration), output)
+        for migration in self.BAR_MIGRATIONS:
+            self.assertIn('bar/{}'.format(migration), output)

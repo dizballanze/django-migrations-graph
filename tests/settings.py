@@ -17,11 +17,9 @@ DATABASES = {
 }
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sites",
     "migraph",
+    "foo",
+    "bar"
 ]
 
 SITE_ID = 1
