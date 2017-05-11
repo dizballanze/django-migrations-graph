@@ -27,9 +27,6 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '*.pyo' -exec rm -f {} +
 	find . -name '*~' -exec rm -f {} +
 
-lint: ## check style with flake8
-	flake8 migraph tests
-
 test: ## run tests quickly with the default Python
 	python runtests.py tests
 
