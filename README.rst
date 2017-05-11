@@ -37,6 +37,7 @@ Add it to your `INSTALLED_APPS`:
 Screenshot
 --------
 
+.. image:: screenshot.png
 
 Running Tests
 -------------

@@ -44,3 +44,4 @@ output/*.html
 output/*/index.html
 *.swp
 venv
+.DS_Store
