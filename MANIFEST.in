@@ -1,5 +1,4 @@
 include AUTHORS.rst
-include CONTRIBUTING.rst
 include LICENSE
 include README.rst
 recursive-include migraph *.html *.png *.gif *js *.css *jpg *jpeg *svg *py

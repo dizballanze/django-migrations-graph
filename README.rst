@@ -30,27 +30,13 @@ Add it to your `INSTALLED_APPS`:
 
     INSTALLED_APPS = (
         ...
-        'migraph.apps.MigraphConfig',
+        'migraph',
         ...
     )
 
-Add django-migrations-graph's URL patterns:
-
-.. code-block:: python
-
-    from migraph import urls as migraph_urls
-
-
-    urlpatterns = [
-        ...
-        url(r'^', include(migraph_urls)),
-        ...
-    ]
-
-Features
+Screenshot
 --------
 
-* TODO
 
 Running Tests
 -------------
@@ -73,3 +59,8 @@ Tools used in rendering this package:
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
+
+License
+-----
+
+MIT
