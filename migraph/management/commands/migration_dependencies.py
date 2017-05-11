@@ -20,7 +20,11 @@ class Command(AppCommand):
         self.stdout.write(self.style.ERROR(text) + '\n')
 
     def print_success(self, text):
-        self.stdout.write(self.style.SUCCESS(text) + '\n')
+        try:
+            styled_text = self.style.SUCCESS(text)
+        except AttributeError:
+            styled_text = self.style.MIGRATE_SUCCESS(text)
+        self.stdout.write(styled_text + '\n')
 
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)
@@ -30,7 +34,7 @@ class Command(AppCommand):
             self.print_success("[{}]".format(app))
             self._print_app_migrations_graph(app)
             if app != apps[-1]:
-                print()
+                self.stdout.write('\n')
 
     def _print_app_migrations_graph(self, app):
         try:

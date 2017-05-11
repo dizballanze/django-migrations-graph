@@ -48,9 +48,9 @@ sdist: clean ## package
 	ls -l dist
 
 pep8:
-	pep8 --exclude=*migrations*,*settings_local.py*,venv/* --max-line-length=119 --show-source .
+	pep8 --exclude=*migrations*,*settings_local.py*,venv/* --max-line-length=119 --show-source migraph tests
 
 pyflakes:
-	pylama --skip=*migrations*,venv/* -l pyflakes .
+	pylama --skip=*migrations*,venv/* -l pyflakes migraph tests
 
 lint: pep8 pyflakes

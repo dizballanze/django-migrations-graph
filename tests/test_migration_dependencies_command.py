@@ -1,4 +1,8 @@
-from io import StringIO
+import sys
+if sys.version_info[0] == 2:
+    from StringIO import StringIO
+else:
+    from io import StringIO
 
 from django.test import TestCase
 from django.core.management import call_command, CommandError
