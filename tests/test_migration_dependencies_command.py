@@ -1,4 +1,3 @@
-import sys
 from io import StringIO
 
 from django.test import TestCase
@@ -27,7 +26,7 @@ class MigrationDependenciesCommandTestCase(TestCase):
 
     def setUp(self):
         self.out = StringIO()
-    
+
     def test_call_without_apps_arguments_raise_command_error(self):
         """ Command call without applications lists should return usage info """
         with self.assertRaises(CommandError):
@@ -44,7 +43,7 @@ class MigrationDependenciesCommandTestCase(TestCase):
         output = self.out.getvalue()
         for migration in self.AUTH_MIGRATIONS:
             self.assertIn('auth/{}'.format(migration), output)
-    
+
     def test_print_depending_migrations(self):
         """ Should print depending migrations from another apps """
         call_command(self.COMMAND_NAME, 'auth', stdout=self.out)

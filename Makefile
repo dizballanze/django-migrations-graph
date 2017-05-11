@@ -49,3 +49,11 @@ release: clean ## package and upload a release
 sdist: clean ## package
 	python setup.py sdist
 	ls -l dist
+
+pep8:
+	pep8 --exclude=*migrations*,*settings_local.py*,venv/* --max-line-length=119 --show-source .
+
+pyflakes:
+	pylama --skip=*migrations*,venv/* -l pyflakes .
+
+lint: pep8 pyflakes
