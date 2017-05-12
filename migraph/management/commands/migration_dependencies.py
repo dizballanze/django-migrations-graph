@@ -4,32 +4,10 @@ from django.db.migrations.loader import MigrationLoader
 
 class Command(AppCommand):
 
-    def print_label(self, text):
-        self.stdout.write(self.style.MIGRATE_LABEL(text) + '\n')
-
-    def print_warn(self, text):
-        self.stdout.write(self.style.WARNING(text) + '\n')
-
-    def print_title(self, text):
-        self.stdout.write(self.style.MIGRATE_HEADING(text) + '\n')
-
-    def print_notice(self, text):
-        self.stdout.write(self.style.NOTICE(text) + '\n')
-
-    def print_error(self, text):
-        self.stdout.write(self.style.ERROR(text) + '\n')
-
-    def print_success(self, text):
-        try:
-            styled_text = self.style.SUCCESS(text)
-        except AttributeError:
-            styled_text = self.style.MIGRATE_SUCCESS(text)
-        self.stdout.write(styled_text + '\n')
-
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)
         for app in apps:
-            self.print_success("[{}]".format(app))
+            self._print_success("[{}]".format(app))
             self._print_app_migrations_graph(app)
             if app != apps[-1]:
                 self.stdout.write('\n')
@@ -38,7 +16,7 @@ class Command(AppCommand):
         try:
             root_key = self.loader.graph.root_nodes(app)[0]
         except IndexError:
-            self.print_error("Migrations for `{}` application were not found".format(app))
+            self._print_error("Migrations for `{}` application were not found".format(app))
             return
         root_node = self.loader.graph.node_map[root_key]
         nodes_to_process = [root_node]
@@ -57,17 +35,43 @@ class Command(AppCommand):
             self._print_depends_on(curr_node, self.loader.graph.nodes[curr_node.key])
 
     def _print_node(self, node):
-        self.print_label("{}/{}".format(*node.key))
+        self._print_label("{}/{}".format(*node.key))
 
     def _print_depending_nodes(self, depending_nodes):
         if depending_nodes:
-            self.print_title("\tDepending:")
+            self._print_title("\tDepending:")
             for depending in depending_nodes:
-                self.print_warn("\t\t{}/{}".format(*depending.key))
+                self._print_warn("\t\t{}/{}".format(*depending.key))
 
     def _print_depends_on(self, node, migration):
         deps = [dep for dep in migration.dependencies if dep[0] != node.key[0]]
         if deps:
-            self.print_title("\tDepends on:")
+            self._print_title("\tDepends on:")
             for dep in deps:
-                    self.print_notice("\t\t{}/{}".format(*dep))
+                    self._print_notice("\t\t{}/{}".format(*dep))
+
+    def _print_styled(self, style, text):
+        self.stdout.write(style(text) + '\n')
+
+    def _print_label(self, text):
+        self._print_styled(self.style.MIGRATE_LABEL, text)
+
+    def _print_warn(self, text):
+        self._print_styled(self.style.WARNING, text)
+
+    def _print_title(self, text):
+        self._print_styled(self.style.MIGRATE_HEADING, text)
+
+    def _print_notice(self, text):
+        self._print_styled(self.style.NOTICE, text)
+
+    def _print_error(self, text):
+        self._print_styled(self.style.ERROR, text)
+
+    def _print_success(self, text):
+        try:
+            style = self.style.SUCCESS
+        except AttributeError:
+            style = self.style.MIGRATE_SUCCESS
+        self._print_styled(self.style.ERROR, text)
+
