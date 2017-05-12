@@ -68,3 +68,8 @@ class MigrationDependenciesCommandTestCase(TestCase):
             self.assertIn('foo/{}'.format(migration), output)
         for migration in self.BAR_MIGRATIONS:
             self.assertIn('bar/{}'.format(migration), output)
+
+    def test_not_existing_app(self):
+        """ Should show error message if wrong application name was provided """
+        call_command(self.COMMAND_NAME, 'wrong', stdout=self.out)
+        self.assertIn('Migrations for `wrong` application were not found', self.out.getvalue())
