@@ -4,6 +4,8 @@ from django.db.migrations.loader import MigrationLoader
 
 class Command(AppCommand):
 
+    help = "Show migrations with dependencies for provided applications "
+
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)
         for app in apps:
