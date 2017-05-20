@@ -16,6 +16,11 @@ Django-admin command to display migrations with dependencies.
 Documentation
 -------------
 
+Requirements
+-----------
+
+- Python 2.7, 3.4+
+- Django 1.8+
 
 Quickstart
 ----------
