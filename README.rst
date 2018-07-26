@@ -11,6 +11,9 @@ django-migrations-graph
 .. image:: https://codecov.io/gh/dizballanze/django-migrations-graph/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/dizballanze/django-migrations-graph
 
+.. image:: https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg
+    :target: https://saythanks.io/to/dizballanze
+
 Django-admin command to display migrations with dependencies.
 
 Documentation
