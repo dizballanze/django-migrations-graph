@@ -6,8 +6,14 @@ class Command(AppCommand):
 
     help = "Show migrations with dependencies for provided applications "
 
+    def _clean(app_name):
+        return app_name.split(".")[-1].lower()
+
     def handle(self, *apps, **options):
         self.loader = MigrationLoader(None)
+        if not apps:
+            from django.conf import settings
+            apps = [clean(app_name) for app_name in settings.INSTALLED_APPS]
         for app in apps:
             self._print_success("[{}]".format(app))
             self._print_app_migrations_graph(app)
@@ -76,4 +82,3 @@ class Command(AppCommand):
         except AttributeError:
             style = self.style.MIGRATE_SUCCESS
         self._print_styled(self.style.ERROR, text)
-
